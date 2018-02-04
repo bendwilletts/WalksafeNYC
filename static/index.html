@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hide your kids</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/stylesheet.css" type="text/css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12" id="header">
+          <h2>WalkSafe NYC</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="start">From:</label>
+            <input type="text" class="form-control" id="start" placeholder="Times Square">
+          </div>
+          <div class="form-group">
+            <label for="destination">To:</label>
+            <input type="text" class="form-control" id="destination" placeholder="Wall Street">
+          </div>
+          <div class="form-group">
+            <button class="btn btn-default" id="search">Find safe path</button>
+          </div>
+          <div id="warningPredator" class="alert alert-danger hidden" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            Registered Sex Predator at Destination
+          </div>
+          <div id="directions-panel"></div>
+          <br>
+          <div id="messageDestination" class="hidden">
+            Tell someone you're going to <br>"<span id="messageFormatDestination"></span>"<br>
+            <input type="text" placeholder="Phone Number" id="phoneNumber"> <button class="btn btn-default" id="sendSMS">Send SMS</button>
+          </div>
+
+        </div>
+        <div class="col-md-9">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBy0VORo6CxYu0uJ3voASFRR0LITk798es&libraries=places&libraries=visualization" ></script>
+  <script type="text/javascript" src="static/main.js"></script>
+  <script>
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+html, body {
+	height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#header {
+	padding: 5px;
+	text-align: center;
+
+}
+#map {
+    height: 100%;
+    min-height: 500px;
+}
+
+#directions-panel{
+	height: 400px;
+	overflow: auto;
+}
+
+.hidden{
+    display: none;
+}
+
+#messageDestination{
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+#phoneNumber{
+    padding: 5px;
+    border-radius: 5px;
+}
