@@ -18,8 +18,20 @@ function initMap(map) {
   var markerArray = [];
   var stepDisplay = new google.maps.InfoWindow;
   var onChangeHandler = function() {
-    calculateAndDisplayRoute(
-      directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    var heatMapLat = new Map();
+    var heatMapLong = new Map();
+    $.get( "http://localhost:5000/getCollisions", function(data){
+      var collisions = JSON.parse(data);
+      for(var i = 0; i<collisions.length; i++){
+        heatMapLat.set(collisions[i][1].toFixed(4).toString(), (collisions[i][2]*10).toFixed(2).toString());
+        heatMapLong.set(collisions[i][0].toFixed(4).toString(), (collisions[i][2]*10).toFixed(2).toString());
+        // console.log(collisions[i][1]);
+        // console.log(collisions[i][0]);
+        // console.log(collisions[i][2]);
+      }
+      calculateAndDisplayRoute(
+      directionsDisplay, directionsService, markerArray, stepDisplay, map, heatMapLat, heatMapLong);
+    });
   };
   document.getElementById('search').addEventListener('click', onChangeHandler);
 
@@ -42,7 +54,7 @@ function initMap(map) {
 }
 
 function findPlace(location){
-  var key = "AIzaSyBy0VORo6CxYu0uJ3voASFRR0LITk798es";
+  var key = "AIzaSyDD_Gm3E8JQqLuhp33fuLJLGlSwrVG_r-E";
 
   $.get("https://maps.googleapis.com/maps/api/geocode/json?address="+location+",+NY&key="+key, function(data){
     $("#messageDestination").removeClass("hidden");
@@ -50,7 +62,7 @@ function findPlace(location){
   });
 }
 
-function calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map){
+function calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map, heatMapLat, heatMapLong){
   console.log("calculateAndDisplayRoute");
   for (var i = 0; i < markerArray.length; i++) {
     markerArray[i].setMap(null);
@@ -67,6 +79,26 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService, markerAr
     // Route the directions and pass the response to a function to create
     // markers for each step.
     if (status === 'OK') {
+
+      //Check each path to see if it is nearby to a collision cluster
+      //for both Lat and Long; Increment safety rating if so.
+      var safety = [];
+      for(var i=0; i<response.routes.length; i++){ 
+        var count = 0.0;
+        var currPath = response.routes[i].overview_path;
+        for(var j=0; j<currPath.length; j++){
+          currLat = currPath[j].lat.call().toFixed(4).toString();
+          currLong = currPath[j].lng.call().toFixed(4).toString();
+          if(heatMapLat.get(currLat) && heatMapLong.get(currLong)){
+            count += parseFloat(heatMapLat.get(currLat));
+          }
+        }
+        safety.push(count.toFixed(2));
+      }
+      //Edit Summary to include safety measurement
+      for(var i=0; i<safety.length; i++){
+        response.routes[i].summary = response.routes[i].summary+" - SAFETY RATING: "+safety[i]+" - ";
+      }
       directionsDisplay.setDirections(response);
     } else {
       window.alert('Directions request failed due to ' + status);
@@ -144,7 +176,7 @@ $(document).ready(function() {
     zoom: 14
   });
   initMap(map);
-  var key = "AIzaSyBy0VORo6CxYu0uJ3voASFRR0LITk798es";
+  var key = "AIzaSyDD_Gm3E8JQqLuhp33fuLJLGlSwrVG_r-E";
   // $.get("http://localhost:5000/getTweets", function(data){
   //     var tweets = JSON.parse(data);
   //     for(var i = 0; i<tweets.length; i++){

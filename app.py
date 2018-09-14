@@ -12,8 +12,8 @@ app.debug = True
 
 CORS(app)
 
-account_sid = "ACf0e2bf4a965ee2fd6467665f984338aa"
-auth_token = "edd284066b59d62fbb134589db797a7e"
+account_sid = "ACc468175fc05ff15e1a710a94576c9cde"
+auth_token = "01edfd028de34a2ee25f70e6f470173f"
 client = Client(account_sid, auth_token)
 
 
@@ -43,7 +43,7 @@ def sendSMS():
 	location  = request.form.get("location")
 	message = client.api.account.messages.create(
 	    to="+1"+number,
-	    from_="+15146132898",
+	    from_="+14502311835",
 	    body="Hello! This is Walksafe NYC, one of our users wanted to let you know that they are going to: \""+location+"\"")
 
 	return "Sent"
