@@ -12,10 +12,6 @@ app.debug = True
 
 CORS(app)
 
-account_sid = "ACc468175fc05ff15e1a710a94576c9cde"
-auth_token = "01edfd028de34a2ee25f70e6f470173f"
-client = Client(account_sid, auth_token)
-
 
 sexualPredators = pickle.load( open( "sexoffender.p", "rb" ) )
 collisionMap = pickle.load( open( "collisionDensityCluster.p", "rb" ) )
@@ -73,10 +69,7 @@ def getAdr(twtEnq):
 def getTweets():
 	tuo = TwitterUserOrder('FDNYalerts')
 	ts = TwitterSearch(
-		consumer_key='g2E8WgnY0PeoE1Oth0qoBKCff',
-		consumer_secret='zmeEFYbVEY0YCynqcD0uxBDfseBJNvnykOPZlQK9s9YXildIje',
-		access_token='750755332285227008-majiilQCFYpQ7TiXZu3K6IIh8oEzOw0',
-		access_token_secret='OAHBfG4FXmlOZi9wz9PpGa0E5y94fHYY8ury62efkXguI'
+
 	)
 	tweetEnquiry = ts.search_tweets_iterable(tuo)
 	fireTweets = getAdr(tweetEnquiry)
